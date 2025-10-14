@@ -51,7 +51,7 @@ FROM pull_requests
 WHERE author_association == "FIRST_TIME_CONTRIBUTOR"
 GROUP BY strftime("%Y-%m", created_at)
 
---- Number of API comments made on PRs opened in each month
+--- Number of comments (as API counts them) made on PRs opened in each month
 --- APIComments.csv
 SELECT
     strftime("%Y-%m", created_at) AS YearMonth,
@@ -60,7 +60,7 @@ FROM pull_requests
 GROUP BY strftime("%Y-%m", created_at)
 ORDER BY pr_month
 
---- Average number of API comments per PR made on PRs opened in each month
+--- Average number of comments (as API counts them) per PR made on PRs opened in each month
 --- APICommentsAverage.csv
 SELECT
     strftime("%Y-%m", created_at) AS YearMonth,
