@@ -242,14 +242,13 @@ ORDER BY YearMonth;
 --- Number of PRs opened on Monday, per 4 weeks
 --- PRsOpenedOnMonday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS week_group,
-    sum(prs_per_week.monday_prs) AS monday_prs
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
+    sum(prs_per_week.monday_prs) AS PRsOpenedOnMonday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS monday_prs
     FROM pull_requests
     WHERE
@@ -257,19 +256,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY week_group;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs opened on Tuesday, per 4 weeks
 --- PRsOpenedOnTuesday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.tuesday_prs) AS PRsOpenedOnTuesday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS tuesday_prs
     FROM pull_requests
     WHERE
@@ -277,19 +275,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs opened on Wednesday, per 4 weeks
 --- PRsOpenedOnWednesday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.wednesday_prs) AS PRsOpenedOnWednesday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS wednesday_prs
     FROM pull_requests
     WHERE
@@ -297,19 +294,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs opened on Thursday, per 4 weeks
 --- PRsOpenedOnThursday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.thursday_prs) AS PRsOpenedOnThursday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS thursday_prs
     FROM pull_requests
     WHERE
@@ -317,19 +313,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs opened on Friday, per 4 weeks
 --- PRsOpenedOnFriday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.friday_prs) AS PRsOpenedOnFriday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS friday_prs
     FROM pull_requests
     WHERE
@@ -337,19 +332,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs opened on Saturday, per 4 weeks
 --- PRsOpenedOnSaturday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.saturday_prs) AS PRsOpenedOnSaturday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS saturday_prs
     FROM pull_requests
     WHERE
@@ -357,19 +351,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs opened on Sunday, per 4 weeks
 --- PRsOpenedOnSunday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.sunday_prs) AS PRsOpenedOnSunday
 FROM (
     SELECT
         strftime("%Y", created_at) * 100 + strftime("%W", created_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", created_at) * 100 + strftime("%W", created_at)
-        ) AS week,
         count(*) AS sunday_prs
     FROM pull_requests
     WHERE
@@ -377,19 +370,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Monday, per 4 weeks
 --- PRsClosedOnMonday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.monday_prs) AS PRsClosedOnMonday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS monday_prs
     FROM pull_requests
     WHERE
@@ -398,19 +390,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Tuesday, per 4 weeks
 --- PRsClosedOnTuesday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.tuesday_prs) AS PRsClosedOnTuesday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS tuesday_prs
     FROM pull_requests
     WHERE
@@ -419,19 +410,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Wednesday, per 4 weeks
 --- PRsClosedOnWednesday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.wednesday_prs) AS PRsClosedOnWednesday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS wednesday_prs
     FROM pull_requests
     WHERE
@@ -440,19 +430,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Thursday, per 4 weeks
 --- PRsClosedOnThursday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.thursday_prs) AS PRsClosedOnThursday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS thursday_prs
     FROM pull_requests
     WHERE
@@ -461,19 +450,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Friday, per 4 weeks
 --- PRsClosedOnFriday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.friday_prs) AS PRsClosedOnFriday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS friday_prs
     FROM pull_requests
     WHERE
@@ -482,19 +470,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Saturday, per 4 weeks
 --- PRsClosedOnSaturday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.saturday_prs) AS PRsClosedOnSaturday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS saturday_prs
     FROM pull_requests
     WHERE
@@ -503,19 +490,18 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
 
 --- Number of PRs closed on Sunday, per 4 weeks
 --- PRsClosedOnSunday.csv
 SELECT
-    (prs_per_week.week - 1) / 4 AS FourWeekGroup,
+    row_number() OVER (
+        ORDER BY prs_per_week.year_week
+    ) AS WeekGroup,
     sum(prs_per_week.sunday_prs) AS PRsClosedOnSunday
 FROM (
     SELECT
         strftime("%Y", closed_at) * 100 + strftime("%W", closed_at) AS year_week,
-        row_number() OVER (
-            ORDER BY strftime("%Y", closed_at) * 100 + strftime("%W", closed_at)
-        ) AS week,
         count(*) AS sunday_prs
     FROM pull_requests
     WHERE
@@ -524,4 +510,4 @@ FROM (
     GROUP BY year_week
     ORDER BY year_week
 ) AS prs_per_week
-GROUP BY FourWeekGroup;
+GROUP BY (prs_per_week.year_week - 1) / 4;
